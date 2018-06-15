@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b71698469b67448ab2d022d057edf4d7" Name="Diagram1">
+        <EntityTypeShape EntityType="NewsBarModel.Kategorije" Width="1.5" PointX="3.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NewsBarModel.Komentari" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NewsBarModel.Korisnici" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NewsBarModel.Svidanja" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NewsBarModel.Tagovi" Width="1.5" PointX="8.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NewsBarModel.Vijesti" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
+        <AssociationConnector Association="NewsBarModel.FK__Vijesti__Kategor__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="NewsBarModel.FK__Komentari__News__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="NewsBarModel.FK__Komentari__Osoba__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="NewsBarModel.FK__Svidanja__Osoba__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="NewsBarModel.FK__Vijesti__AutorId__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="NewsBarModel.FK__Svidanja__News__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="NewsBarModel.FK__Tagovi__News__46E78A0C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

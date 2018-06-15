@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NewsBarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kategorije">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Komentari">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="News" Type="int" Nullable="false" />
+          <Property Name="Osoba" Type="int" />
+          <Property Name="Tekst" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Edited" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Korisnici">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Pass" Type="char" MaxLength="32" Nullable="false" />
+          <Property Name="Avatar" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Svidanja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="News" Type="int" Nullable="false" />
+          <Property Name="Osoba" Type="int" />
+        </EntityType>
+        <EntityType Name="Tagovi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="News" Type="int" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vijesti">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="AutorId" Type="int" />
+          <Property Name="Autor" Type="nvarchar" MaxLength="30" />
+          <Property Name="Naslov" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="Slika" Type="nvarchar" MaxLength="100" />
+          <Property Name="Tekst" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Kategorija" Type="int" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Edited" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Komentari__News__3F466844">
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Komentari" Type="Self.Komentari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vijesti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Komentari">
+              <PropertyRef Name="News" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Komentari__Osoba__403A8C7D">
+          <End Role="Korisnici" Type="Self.Korisnici" Multiplicity="0..1" />
+          <End Role="Komentari" Type="Self.Komentari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnici">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Komentari">
+              <PropertyRef Name="Osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Svidanja__News__4316F928">
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Svidanja" Type="Self.Svidanja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vijesti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Svidanja">
+              <PropertyRef Name="News" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Svidanja__Osoba__440B1D61">
+          <End Role="Korisnici" Type="Self.Korisnici" Multiplicity="0..1" />
+          <End Role="Svidanja" Type="Self.Svidanja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnici">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Svidanja">
+              <PropertyRef Name="Osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tagovi__News__46E78A0C">
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Tagovi" Type="Self.Tagovi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vijesti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tagovi">
+              <PropertyRef Name="News" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vijesti__AutorId__3B75D760">
+          <End Role="Korisnici" Type="Self.Korisnici" Multiplicity="0..1" />
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnici">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vijesti">
+              <PropertyRef Name="AutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vijesti__Kategor__3C69FB99">
+          <End Role="Kategorije" Type="Self.Kategorije" Multiplicity="0..1" />
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategorije">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vijesti">
+              <PropertyRef Name="Kategorija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NewsBarModelStoreContainer">
+          <EntitySet Name="Kategorije" EntityType="Self.Kategorije" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Komentari" EntityType="Self.Komentari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Korisnici" EntityType="Self.Korisnici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Svidanja" EntityType="Self.Svidanja" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tagovi" EntityType="Self.Tagovi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vijesti" EntityType="Self.Vijesti" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Komentari__News__3F466844" Association="Self.FK__Komentari__News__3F466844">
+            <End Role="Vijesti" EntitySet="Vijesti" />
+            <End Role="Komentari" EntitySet="Komentari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Komentari__Osoba__403A8C7D" Association="Self.FK__Komentari__Osoba__403A8C7D">
+            <End Role="Korisnici" EntitySet="Korisnici" />
+            <End Role="Komentari" EntitySet="Komentari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Svidanja__News__4316F928" Association="Self.FK__Svidanja__News__4316F928">
+            <End Role="Vijesti" EntitySet="Vijesti" />
+            <End Role="Svidanja" EntitySet="Svidanja" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Svidanja__Osoba__440B1D61" Association="Self.FK__Svidanja__Osoba__440B1D61">
+            <End Role="Korisnici" EntitySet="Korisnici" />
+            <End Role="Svidanja" EntitySet="Svidanja" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tagovi__News__46E78A0C" Association="Self.FK__Tagovi__News__46E78A0C">
+            <End Role="Vijesti" EntitySet="Vijesti" />
+            <End Role="Tagovi" EntitySet="Tagovi" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vijesti__AutorId__3B75D760" Association="Self.FK__Vijesti__AutorId__3B75D760">
+            <End Role="Korisnici" EntitySet="Korisnici" />
+            <End Role="Vijesti" EntitySet="Vijesti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vijesti__Kategor__3C69FB99" Association="Self.FK__Vijesti__Kategor__3C69FB99">
+            <End Role="Kategorije" EntitySet="Kategorije" />
+            <End Role="Vijesti" EntitySet="Vijesti" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NewsBarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kategorije">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Ime" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Vijesti" Relationship="Self.FK__Vijesti__Kategor__3C69FB99" FromRole="Kategorije" ToRole="Vijesti" />
+        </EntityType>
+        <EntityType Name="Komentari">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="News" Type="Int32" Nullable="false" />
+          <Property Name="Osoba" Type="Int32" />
+          <Property Name="Tekst" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Edited" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Vijesti" Relationship="Self.FK__Komentari__News__3F466844" FromRole="Komentari" ToRole="Vijesti" />
+          <NavigationProperty Name="Korisnici" Relationship="Self.FK__Komentari__Osoba__403A8C7D" FromRole="Komentari" ToRole="Korisnici" />
+        </EntityType>
+        <EntityType Name="Korisnici">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Ime" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pass" Type="String" MaxLength="32" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Avatar" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Komentari" Relationship="Self.FK__Komentari__Osoba__403A8C7D" FromRole="Korisnici" ToRole="Komentari" />
+          <NavigationProperty Name="Svidanja" Relationship="Self.FK__Svidanja__Osoba__440B1D61" FromRole="Korisnici" ToRole="Svidanja" />
+          <NavigationProperty Name="Vijesti" Relationship="Self.FK__Vijesti__AutorId__3B75D760" FromRole="Korisnici" ToRole="Vijesti" />
+        </EntityType>
+        <EntityType Name="Svidanja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="News" Type="Int32" Nullable="false" />
+          <Property Name="Osoba" Type="Int32" />
+          <NavigationProperty Name="Korisnici" Relationship="Self.FK__Svidanja__Osoba__440B1D61" FromRole="Svidanja" ToRole="Korisnici" />
+          <NavigationProperty Name="Vijesti" Relationship="Self.FK__Svidanja__News__4316F928" FromRole="Svidanja" ToRole="Vijesti" />
+        </EntityType>
+        <EntityType Name="Tagovi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="News" Type="Int32" Nullable="false" />
+          <Property Name="Tag" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Vijesti" Relationship="Self.FK__Tagovi__News__46E78A0C" FromRole="Tagovi" ToRole="Vijesti" />
+        </EntityType>
+        <EntityType Name="Vijesti">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AutorId" Type="Int32" />
+          <Property Name="Autor" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Naslov" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Slika" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Tekst" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Kategorija" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Edited" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Kategorije" Relationship="Self.FK__Vijesti__Kategor__3C69FB99" FromRole="Vijesti" ToRole="Kategorije" />
+          <NavigationProperty Name="Komentari" Relationship="Self.FK__Komentari__News__3F466844" FromRole="Vijesti" ToRole="Komentari" />
+          <NavigationProperty Name="Korisnici" Relationship="Self.FK__Vijesti__AutorId__3B75D760" FromRole="Vijesti" ToRole="Korisnici" />
+          <NavigationProperty Name="Svidanja" Relationship="Self.FK__Svidanja__News__4316F928" FromRole="Vijesti" ToRole="Svidanja" />
+          <NavigationProperty Name="Tagovi" Relationship="Self.FK__Tagovi__News__46E78A0C" FromRole="Vijesti" ToRole="Tagovi" />
+        </EntityType>
+        <Association Name="FK__Vijesti__Kategor__3C69FB99">
+          <End Role="Kategorije" Type="Self.Kategorije" Multiplicity="0..1" />
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategorije">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vijesti">
+              <PropertyRef Name="Kategorija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Komentari__News__3F466844">
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Komentari" Type="Self.Komentari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vijesti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Komentari">
+              <PropertyRef Name="News" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Komentari__Osoba__403A8C7D">
+          <End Role="Korisnici" Type="Self.Korisnici" Multiplicity="0..1" />
+          <End Role="Komentari" Type="Self.Komentari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnici">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Komentari">
+              <PropertyRef Name="Osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Svidanja__Osoba__440B1D61">
+          <End Role="Korisnici" Type="Self.Korisnici" Multiplicity="0..1" />
+          <End Role="Svidanja" Type="Self.Svidanja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnici">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Svidanja">
+              <PropertyRef Name="Osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vijesti__AutorId__3B75D760">
+          <End Role="Korisnici" Type="Self.Korisnici" Multiplicity="0..1" />
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnici">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vijesti">
+              <PropertyRef Name="AutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Svidanja__News__4316F928">
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Svidanja" Type="Self.Svidanja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vijesti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Svidanja">
+              <PropertyRef Name="News" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tagovi__News__46E78A0C">
+          <End Role="Vijesti" Type="Self.Vijesti" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Tagovi" Type="Self.Tagovi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vijesti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tagovi">
+              <PropertyRef Name="News" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NewsBarEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kategorije" EntityType="Self.Kategorije" />
+          <EntitySet Name="Komentari" EntityType="Self.Komentari" />
+          <EntitySet Name="Korisnici" EntityType="Self.Korisnici" />
+          <EntitySet Name="Svidanja" EntityType="Self.Svidanja" />
+          <EntitySet Name="Tagovi" EntityType="Self.Tagovi" />
+          <EntitySet Name="Vijesti" EntityType="Self.Vijesti" />
+          <AssociationSet Name="FK__Vijesti__Kategor__3C69FB99" Association="Self.FK__Vijesti__Kategor__3C69FB99">
+            <End Role="Kategorije" EntitySet="Kategorije" />
+            <End Role="Vijesti" EntitySet="Vijesti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Komentari__News__3F466844" Association="Self.FK__Komentari__News__3F466844">
+            <End Role="Vijesti" EntitySet="Vijesti" />
+            <End Role="Komentari" EntitySet="Komentari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Komentari__Osoba__403A8C7D" Association="Self.FK__Komentari__Osoba__403A8C7D">
+            <End Role="Korisnici" EntitySet="Korisnici" />
+            <End Role="Komentari" EntitySet="Komentari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Svidanja__Osoba__440B1D61" Association="Self.FK__Svidanja__Osoba__440B1D61">
+            <End Role="Korisnici" EntitySet="Korisnici" />
+            <End Role="Svidanja" EntitySet="Svidanja" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vijesti__AutorId__3B75D760" Association="Self.FK__Vijesti__AutorId__3B75D760">
+            <End Role="Korisnici" EntitySet="Korisnici" />
+            <End Role="Vijesti" EntitySet="Vijesti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Svidanja__News__4316F928" Association="Self.FK__Svidanja__News__4316F928">
+            <End Role="Vijesti" EntitySet="Vijesti" />
+            <End Role="Svidanja" EntitySet="Svidanja" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tagovi__News__46E78A0C" Association="Self.FK__Tagovi__News__46E78A0C">
+            <End Role="Vijesti" EntitySet="Vijesti" />
+            <End Role="Tagovi" EntitySet="Tagovi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NewsBarModelStoreContainer" CdmEntityContainer="NewsBarEntities">
+          <EntitySetMapping Name="Kategorije">
+            <EntityTypeMapping TypeName="NewsBarModel.Kategorije">
+              <MappingFragment StoreEntitySet="Kategorije">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Komentari">
+            <EntityTypeMapping TypeName="NewsBarModel.Komentari">
+              <MappingFragment StoreEntitySet="Komentari">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="News" ColumnName="News" />
+                <ScalarProperty Name="Osoba" ColumnName="Osoba" />
+                <ScalarProperty Name="Tekst" ColumnName="Tekst" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Edited" ColumnName="Edited" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Korisnici">
+            <EntityTypeMapping TypeName="NewsBarModel.Korisnici">
+              <MappingFragment StoreEntitySet="Korisnici">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Svidanja">
+            <EntityTypeMapping TypeName="NewsBarModel.Svidanja">
+              <MappingFragment StoreEntitySet="Svidanja">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="News" ColumnName="News" />
+                <ScalarProperty Name="Osoba" ColumnName="Osoba" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tagovi">
+            <EntityTypeMapping TypeName="NewsBarModel.Tagovi">
+              <MappingFragment StoreEntitySet="Tagovi">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="News" ColumnName="News" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vijesti">
+            <EntityTypeMapping TypeName="NewsBarModel.Vijesti">
+              <MappingFragment StoreEntitySet="Vijesti">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AutorId" ColumnName="AutorId" />
+                <ScalarProperty Name="Autor" ColumnName="Autor" />
+                <ScalarProperty Name="Naslov" ColumnName="Naslov" />
+                <ScalarProperty Name="Slika" ColumnName="Slika" />
+                <ScalarProperty Name="Tekst" ColumnName="Tekst" />
+                <ScalarProperty Name="Kategorija" ColumnName="Kategorija" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Edited" ColumnName="Edited" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
