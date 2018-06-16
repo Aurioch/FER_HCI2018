@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NewsBarHCI.Models;
+using NewsBarCore;
 
 namespace NewsBarHCI.Controllers
 {
@@ -13,18 +15,20 @@ namespace NewsBarHCI.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpGet]
+        public ActionResult AddNews(int userId)
         {
-            ViewBag.Message = "Your application description page.";
+            var model = new AddNewsViewModel();
 
-            return View();
-        }
+            var db = new NewsBarEntities();
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            model.Korisnik = db.Korisnici.Find(userId);
+            model.Vijest = new Vijesti()
+            {
+                AutorId = userId,                
+            };
 
-            return View();
+            return View(model);
         }
     }
 }

@@ -1,4 +1,85 @@
-﻿@{ 
+﻿@using Microsoft.Web.Helpers;
+
+@{
     ViewBag.Title = "Dodaj vijest";
 }
 
+@model NewsBarCore.Vijesti
+
+@{
+    WebImage photo = null;
+
+    if (IsPost)
+    {
+        photo = WebImage.GetImageFromRequest();
+        if (photo != null)
+        {
+            photo.Save(Model.Slika);
+        }
+    }
+}
+
+<h2>Dodaj vijest</h2>
+
+<div id="form">
+
+    @if (@IsPost)
+    {
+        <div class="alert alert-success">
+            <p>Vijest dodana</p>
+        </div>
+    }
+
+    <form method="post" action="postnews" enctype="multipart/form-data">
+        <div class="row segment">
+            <div class="col-md-2">Naslov:</div>
+            <div class="col-md-10">@Html.TextBoxFor(news => news.Naslov)</div>
+        </div>
+
+        <div class="row segment">
+            <div class="col-md-2">Autor:</div>
+            <div class="col-md-10">@Html.TextBoxFor(news => news.Author)</div>
+        </div>
+
+        <div class="row segment">
+            <div class="col-md-2">Tekst:</div>
+            <div class="col-md-10">@Html.TextAreaFor(news => news.Text)</div>
+        </div>
+
+        <div class="row segment">
+            <div class="col-md-2">Slika:</div>
+            <div class="col-md-10"><img id="preview" name="imagePreview" /><br /><input id="upload" type="file" accept="images/*" name="Image" /></div>
+        </div>
+
+        <div class="row segment">
+            <div class="col-md-12">
+                <button type="submit">Submit</button>
+                <button type="reset">Clear</button>
+                @Html.HiddenFor(news => news.NewsId)
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    document.getElementById("upload").onchange = function fileSelected() {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("preview").src = e.target.result;
+            //imgString = e.target.result;
+        };
+
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    }
+</script>
+
+<style type="text/css">
+    .segment {
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+</style>
