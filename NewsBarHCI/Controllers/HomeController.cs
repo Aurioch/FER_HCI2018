@@ -16,16 +16,16 @@ namespace NewsBarHCI.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddNews(int userId)
+        public ActionResult AddNews(int Id)
         {
             var model = new AddNewsViewModel();
 
             var db = new NewsBarEntities();
 
-            model.Korisnik = db.Korisnici.Find(userId);
+            model.Korisnik = db.Korisnici.Find(Id);
             model.Vijest = new Vijesti()
             {
-                AutorId = userId,                
+                AutorId = Id,                
             };
 
             return View(model);
