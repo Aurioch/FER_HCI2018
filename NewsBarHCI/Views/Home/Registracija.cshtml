@@ -8,26 +8,58 @@
 
     <h2>Registracija</h2>
 
-        <form id="regForm" method="post">
+    <form id="regForm" method="post">
 
-            <p>
-                <label for="userName"> Korisničko ime:</label>
-                <input type="text" id="nick" name="Nick" />
-            </p>
-            <p>
-                <label for="userPasswors">Lozinka:</label>
-                <input password="text" id="password" name="Password" />
-            </p>
-            <p>
-                <label for="userEmail">E-mail:</label>
-                <input type="text" id="EmailR" name="E-mail" />
-            </p>
-          
+        <p>
+            <label for="userName"> Korisničko ime:</label>
+            <input type="text" id="nick" name="Nick" />
+        </p>
 
-            <input type="button" id="saveUser" value="Spremi" />
-        </form>
+        <p>
+            <label for="userEmail">E-mail:</label>
+            <input type="text" id="email" name="E-mail" />
+        </p>
+        <p>
+            <label for="userPasswors">Lozinka:</label>
+            <input password="text" id="password" name="Password" />
+        </p>
+        <p>
+            <label for="userPasswors">Potvrdite lozinku:</label>
+            <input password="text" id="passwordConf" name="Password" />
+        </p>
+
+        <input type="button" id="saveUser" value="Spremi" />
+    </form>
 
 
 
 
 </div>
+
+
+@section scripts{
+
+    <script type="text/javascript">
+
+
+
+        $('#saveUser').click(function () {
+
+
+            if (document.getElementById("nick").value == "" || document.getElementById("email").value == "" || document.getElementById("password").value == "" || document.getElementById("passwordConf").value == "") {
+
+                alert("Niti jedno polje ne smije biti prazno.")
+
+            } else if (!(document.getElementById("password").value == document.getElementById("passwordConf").value)) {
+
+                alert("Lozinke se ne podudaraju.");
+
+            }
+
+
+        });
+
+    </script>
+
+
+}

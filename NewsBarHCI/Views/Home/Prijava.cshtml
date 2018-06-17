@@ -6,21 +6,44 @@
 
 <div class="jumbotron">
 
-                <h2>Prijava</h2>
+    <h2>Prijava</h2>
 
-                <form id="login_form" method="post">
-                    <p>
-                        <label for="UserName">Korisničko ime:</label>
-                        <input type="text" id="nick" name="Nick" />
-                    </p>
-                    <p>
-                        <label for="UserPassword">Lozinka:</label>
-                        <input type="text" id="password" name="Password" />
-                    </p>
-                    <input type="button" id="login" value="Prijava" />
-                </form>
+    <form id="login_form" method="post">
+        <p>
+            <label for="UserName">Korisničko ime:</label>
+            <input type="text" id="nick" name="Nick" />
+        </p>
+        <p>
+            <label for="UserPassword">Lozinka:</label>
+            <input type="text" id="password" name="Password" />
+        </p>
+        <input type="button" id="login" value="Prijava" />
+    </form>
 
 
 
-    
+
 </div>
+
+
+@section scripts{
+
+    <script type="text/javascript">
+
+
+
+        $('#login').click(function () {
+
+
+            if (document.getElementById("nick").value == "" ||  document.getElementById("password").value == ""  ) {
+
+                alert("Niti jedno polje ne smije biti prazno.")
+                      
+            } 
+
+        });
+
+    </script>
+
+
+}
