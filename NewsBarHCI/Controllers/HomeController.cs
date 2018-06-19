@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using NewsBarHCI.Models;
 using NewsBarCore;
+using System.Collections;
 
 namespace NewsBarHCI.Controllers
 {
@@ -50,7 +51,18 @@ namespace NewsBarHCI.Controllers
 
             var vijest = db.Vijesti.Find(Id);
 
-            return View(vijest);
+      //      List<NewsBarCore.Vijesti> vijestList = new List<Vijesti>();
+
+        //    vijestList.Add(vijest);
+          
+
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = vijest
+            };
+
+            return View(model);
            
         }
 

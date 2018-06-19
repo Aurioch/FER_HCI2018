@@ -1,13 +1,60 @@
 ﻿
 @{
     ViewBag.Title = "NewsView";
+    var item = (NewsBarCore.Vijesti)Model.PageModel;
 }
 
 
-@model NewsBarCore.Vijesti
+@model NewsBarHCI.Models.ViewModel
 
 <div class="container news">
-  
+    @if (Model != null)
+    {
+       
+            <div id="newsWindow" class="row vijest" onclick="newFrame()">
+                <div class="col-md-12">
+                    <h1>@item.Naslov</h1>
+                </div>
+                <div class="col-md-6">
+                    <!--<img src="UrlHelper.GenerateContentUrl(item.Slika, this.Context)" />-->
+                </div>
+                <div class="col-md-6">
+                    <h3>@item.Korisnici.Ime</h3>
+                    <p>@item.Tekst</p><br />
+                </div>
+
+                <div class="col-md-12">
+                    <form method="post" action="PostComment">
+                        <input type="hidden" name="ownerid" value="@item.Id.ToString()" /><br />
+                        <p>Autor: <input name="author" /></p>
+                        <p><textarea name="comment"></textarea></p>
+                        <p><button type="submit">Submit</button></p>
+                    </form>
+                </div>
+
+                <div class="col-md-12">
+                    <ul class="list-group">
+                        @foreach (var comment in item.Komentari.Where(c => c.News == item.Id))
+                        {
+                            <li class="list-group-item">
+                                <h4>@comment.Osoba</h4>
+                                <p>@comment.Tekst</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
         
-     
+
+    }
 </div>
+
+<style type="text/css">
+    .vijest {
+        background-color: #eeeeee;
+        border-color: gray;
+        border-style: solid;
+        border-radius: 16px;
+    }
+</style>

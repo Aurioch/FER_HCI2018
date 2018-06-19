@@ -9,7 +9,7 @@
     {
         foreach (var item in (List<NewsBarCore.Vijesti>)Model.PageModel)
         {
-            <div id="newsWindow" class="row vijest" onclick="newFrame()">
+            <div id="newsWindow" class="row vijest" onclick="newFrame(@item.Id)">
                 <div class="col-md-12">
                     <h1>@item.Naslov</h1>
                 </div>
@@ -61,8 +61,15 @@
 
     <script type="text/javascript">
 
-        function newFrame() {
-            window.open("/Home/NewsView/1");
+     
+
+        function newFrame(index) {
+
+            var str1 = "/Home/NewsView/"
+            var str2 = index.toString();
+            var res = str1.concat(str2);
+
+            window.open(res);
         }
         
    
