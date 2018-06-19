@@ -2,7 +2,14 @@
 
     <h2>Prijava</h2>
 
-    <form id="login_form" method="post">
+    @if (@IsPost)
+    {
+        <div class="alert alert-danger">
+            <p>Prijava nije uspjela</p>
+        </div>
+    }
+
+    <form id="login_form" method="post" action="login">
         <p>
             <label for="UserName">Korisničko ime:</label>
             <input type="text" id="nick" name="Nick" />
@@ -11,7 +18,7 @@
             <label for="UserPassword">Lozinka:</label>
             <input type="password" id="password" name="Password" />
         </p>
-        <input type="button" id="login" value="Prijava" />
+        <button type="submit" id="login">Prijava</button>
     </form>
 
 
