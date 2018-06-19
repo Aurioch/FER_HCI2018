@@ -11,18 +11,40 @@ namespace NewsBarHCI.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int Id = -1)
         {
             var db = new NewsBarEntities();
 
-            var model = new ViewModel()
+            if (Id == -1)
             {
-                Kategorije = db.Kategorije.ToList(),
-                PageModel = db.Vijesti.ToList()
-            };
 
-            return View(model);
+                var model = new ViewModel()
+                {
+                    Kategorije = db.Kategorije.ToList(),
+                    PageModel = db.Vijesti.ToList()
+                };
+
+                return View(model);
+            }
+            else
+            {
+
+                var model = new ViewModel()
+                {
+                    Kategorije = db.Kategorije.ToList(),
+                    PageModel = db.Kategorije.Find(Id).Vijesti.ToList()
+                };
+
+                return View(model);
+
+            }
+
+           
+
+    
         }
+
+      
 
         [HttpGet]
         public ActionResult AddNews()
