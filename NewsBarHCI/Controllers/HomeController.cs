@@ -30,5 +30,24 @@ namespace NewsBarHCI.Controllers
 
             return View(model);
         }
+
+        public ActionResult Prijava()
+        {
+
+            return View();
+        }
+
+        public ActionResult Registracija()
+        {
+
+
+            return View();
+        }
+
+        public ActionResult Pretraga()
+        {
+
+            return View();
+        }
     }
 }

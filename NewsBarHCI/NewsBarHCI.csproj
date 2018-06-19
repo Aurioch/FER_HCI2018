@@ -234,7 +234,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Pretraga.cshtml" />
+    <Content Include="Views\Home\Prijava.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+	<Content Include="Views\Home\Registracija.cshtml" />
     <Content Include="Views\Home\AddNews.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
