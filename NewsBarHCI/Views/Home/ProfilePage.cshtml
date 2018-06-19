@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "ProfilePage";
+  //  var itemKosrisnik = (NewsBarCore.Korisnici)Model.PageModel;
+//    var vijesti = itemKosrisnik.Vijesti;
+
+ //   var kor = (NewsBarCore.Korisnici)Session["User"];
+}
+
+
+@model NewsBarHCI.Models.ViewModel
+
+
+
+<div class="container news">
+
+    <div class="jumbotron">
+
+        <h2>Registracija</h2>
+
+        <form id="regForm" method="post">
+
+            <p>
+                <label for="userName"> Korisničko ime:</label>
+                <input type="text" id="nick" name="Nick" />
+            </p>
+
+            <p>
+                <label for="userEmail">E-mail:</label>
+                <input type="text" id="email" name="E-mail" />
+            </p>
+            <p>
+                <label for="userPasswors">Lozinka:</label>
+                <input type="password" id="password" name="Password" />
+            </p>
+            <p>
+                <label for="userPasswors">Potvrdite lozinku:</label>
+                <input type="password" id="passwordConf" name="Password" />
+            </p>
+
+            <input type="button" id="saveUser" value="Spremi" />
+        </form>
+
+
+    </div>
+
+
+</div>
+
+<style type="text/css">
+    .vijest {
+        background-color: #eeeeee;
+        border-color: gray;
+        border-style: solid;
+        border-radius: 16px;
+    }
+</style>

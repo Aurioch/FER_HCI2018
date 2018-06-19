@@ -38,9 +38,6 @@ namespace NewsBarHCI.Controllers
                 return View(model);
 
             }
-
-           
-
     
         }
 
@@ -73,11 +70,6 @@ namespace NewsBarHCI.Controllers
 
             var vijest = db.Vijesti.Find(Id);
 
-      //      List<NewsBarCore.Vijesti> vijestList = new List<Vijesti>();
-
-        //    vijestList.Add(vijest);
-          
-
             var model = new ViewModel()
             {
                 Kategorije = db.Kategorije.ToList(),
@@ -86,6 +78,38 @@ namespace NewsBarHCI.Controllers
 
             return View(model);
            
+        }
+
+        public ActionResult ProfilePage(int Id = -1) 
+        {
+
+            var db = new NewsBarEntities();
+
+            if(Id == -1)
+            {
+                var model = new ViewModel()
+                {
+                    Kategorije = db.Kategorije.ToList(),
+                    PageModel = null
+                };
+
+                return View(model);
+            }
+            else
+            {
+                var korisnik = db.Korisnici.Find(Id);
+
+                var model = new ViewModel()
+                {
+                    Kategorije = db.Kategorije.ToList(),
+                    PageModel = korisnik
+                };
+
+
+                return View(model);
+
+            }
+          
         }
 
 
