@@ -5,22 +5,43 @@ using System.Web;
 using System.Web.Mvc;
 using NewsBarHCI.Models;
 using NewsBarCore;
+using System.Collections;
 
 namespace NewsBarHCI.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int Id = -1)
         {
             var db = new NewsBarEntities();
 
-            var model = new ViewModel()
+            if (Id == -1)
             {
-                Kategorije = db.Kategorije.ToList(),
-                PageModel = db.Vijesti.ToList()
-            };
 
-            return View(model);
+                var model = new ViewModel()
+                {
+                    Kategorije = db.Kategorije.ToList(),
+                    PageModel = db.Vijesti.ToList()
+                };
+
+                return View(model);
+            }
+            else
+            {
+
+                var model = new ViewModel()
+                {
+                    Kategorije = db.Kategorije.ToList(),
+                    PageModel = db.Kategorije.Find(Id).Vijesti.ToList()
+                };
+
+                return View(model);
+
+            }
+
+           
+
+    
         }
 
         [HttpGet]
@@ -104,6 +125,29 @@ namespace NewsBarHCI.Controllers
 
             return View("Index", model);
         }
+
+        [HttpGet]
+        public ActionResult NewsView(int Id)
+        {
+            var db = new NewsBarEntities();
+
+            var vijest = db.Vijesti.Find(Id);
+
+            //      List<NewsBarCore.Vijesti> vijestList = new List<Vijesti>();
+
+            //    vijestList.Add(vijest);
+
+
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = vijest
+            };
+
+            return View(model);
+
+        }
+
 
         public ActionResult Registracija()
         {
