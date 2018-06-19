@@ -12,7 +12,16 @@ namespace NewsBarHCI.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var db = new NewsBarEntities();
+            var model = new IndexViewModel()
+            {
+                Korisnici = null,
+                Komentari = null,
+                Vijesti = db.Vijesti.ToList(),
+                Kategorije = db.Kategorije.ToList()
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -30,6 +39,8 @@ namespace NewsBarHCI.Controllers
 
             return View(model);
         }
+
+      
 
         public ActionResult Prijava()
         {
