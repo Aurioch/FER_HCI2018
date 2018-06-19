@@ -1,23 +1,17 @@
 ﻿
 @{
-    ViewBag.Title = "Home Page";
-
-    if (IsPost)
-    {
-        var param = (object[])(Model.PageModel);
-        Session["User"] = (NewsBarCore.Korisnici)(param[0]);
-        Model.PageModel = param[1];
-    }
+    ViewBag.Title = "NewsView";
+    var item = (NewsBarCore.Vijesti)Model.PageModel;
 }
+
 
 @model NewsBarHCI.Models.ViewModel
 
 <div class="container news">
     @if (Model != null)
     {
-        foreach (var item in (List<NewsBarCore.Vijesti>)Model.PageModel)
-        {
-            <div id="newsWindow" class="row vijest" onclick="newFrame(@item.Id)">
+       
+            <div id="newsWindow" class="row vijest" onclick="newFrame()">
                 <div class="col-md-12">
                     <h1>@item.Naslov</h1>
                 </div>
@@ -51,7 +45,8 @@
                 </div>
 
             </div>
-        }
+        
+
     }
 </div>
 
@@ -63,25 +58,3 @@
         border-radius: 16px;
     }
 </style>
-
-
-@section scripts{
-
-    <script type="text/javascript">
-
-     
-
-        function newFrame(index) {
-
-            var str1 = "/Home/NewsView/"
-            var str2 = index.toString();
-            var res = str1.concat(str2);
-
-            window.open(res);
-        }
-        
-   
-    </script>
-
-
-}

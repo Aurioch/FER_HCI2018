@@ -1,4 +1,4 @@
-﻿@model NewsBarHCI.Models.BaseViewModel
+﻿@model NewsBarHCI.Models.ViewModel
 
 <!DOCTYPE html>
 <html>
@@ -13,27 +13,29 @@
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
         <div class="container">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></button>
-            @Html.ActionLink("NewsBar", "Index", "Home", new { @class = "navbar-brand" })
+            @Html.ActionLink("NewsBar", "Index", "Home", new { Id = -1 }, new { @class = "navbar-brand" })
             <div class="navbar-collapse collapse" id="navbarSupportedContent">
-                <ul class="nav navbar-nav mr-auto">
+
+                <ul class="nav navbar-nav mr-auto" onclick="showCat(1)">
                     @if (Model != null)
                     {
                         foreach (var cat in Model.Kategorije)
                         {
-                            <li class="nav-item">@Html.ActionLink(cat.Ime, "Index", "Home", new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink(cat.Ime, "Index", "Home", new { Id = cat.Id }, new {@class = "nav-link"})</li>
                         }
                     }
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right ml-auto">
-                    @if (Model != null)
+                    @Html.ActionLink("Pretraga", "Pretraga", "Home", new { @class = "nav-link" })
+                    @if (Session["User"] != null)
                     {
                         <li class="nav-item">@Html.ActionLink("Dodaj vijest", "AddNews", "Home", new { @class = "nav-link" })</li>
                     }
                     else
                     {
-                        <li class="nav-item"><a href="/Account/Register" id="registerLink" class="nav-link">Register</a></li>
-                        <li class="nav-item"><a href="/Account/Login" id="loginLink" class="nav-link">Log in</a></li>
+                        <li class="nav-item">@Html.ActionLink("Registracija", "Registracija", "Home", new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Prijava", "Prijava", "Home", new { @class = "nav-link" })</li>
                     }
                 </ul>
 
@@ -54,3 +56,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

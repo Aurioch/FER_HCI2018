@@ -4,9 +4,22 @@
     ViewBag.Title = "Dodaj vijest";
 }
 
-@model NewsBarCore.Vijesti
+@model NewsBarHCI.Models.ViewModel
 
 @{
+    var news = (NewsBarCore.Vijesti)Model.PageModel;
+    var korisnik = (NewsBarCore.Korisnici)Session["User"];
+    if (news != null)
+    {
+        news.AutorId = korisnik.Id;
+    }
+
+    var selectionList = new List<SelectListItem>();
+    foreach (var c in Model.Kategorije.ToList())
+    {
+        selectionList.Add(new SelectListItem() { Text = c.Ime, Value = c.Id.ToString() });
+    }
+
     WebImage photo = null;
 
     if (IsPost)
@@ -14,7 +27,7 @@
         photo = WebImage.GetImageFromRequest();
         if (photo != null)
         {
-            photo.Save(Model.Slika);
+            //photo.Save(Model.Slika);
         }
     }
 }
@@ -25,25 +38,36 @@
 
     @if (@IsPost)
     {
-        <div class="alert alert-success">
-            <p>Vijest dodana</p>
-        </div>
+        if (Model.PageModel != null)
+        {
+            <div class="alert alert-success">
+                <p>Vijest dodana</p>
+            </div>
+        }
+        else
+        {
+            Model.PageModel = new NewsBarCore.Vijesti();
+
+            <div class="alert alert-danger">
+                <p>Dodavanje vijesti nije uspjelo</p>
+            </div>
+        }
     }
 
     <form method="post" action="postnews" enctype="multipart/form-data">
         <div class="row segment">
             <div class="col-md-2">Naslov:</div>
-            <div class="col-md-10">@Html.TextBoxFor(news => news.Naslov)</div>
+            <div class="col-md-10">@Html.TextBoxFor(model => ((NewsBarCore.Vijesti)model.PageModel).Naslov)</div>
         </div>
 
         <div class="row segment">
-            <div class="col-md-2">Autor:</div>
-            <div class="col-md-10">@Html.TextBoxFor(news => news.Author)</div>
+            <div class="col-md-2">Kategorija:</div>
+            <div class="col-md-10">@Html.DropDownListFor(model => ((NewsBarCore.Vijesti)model.PageModel).Kategorija, selectionList)</div>
         </div>
 
         <div class="row segment">
             <div class="col-md-2">Tekst:</div>
-            <div class="col-md-10">@Html.TextAreaFor(news => news.Text)</div>
+            <div class="col-md-10">@Html.TextAreaFor(model => ((NewsBarCore.Vijesti)model.PageModel).Tekst)</div>
         </div>
 
         <div class="row segment">
@@ -55,7 +79,8 @@
             <div class="col-md-12">
                 <button type="submit">Submit</button>
                 <button type="reset">Clear</button>
-                @Html.HiddenFor(news => news.NewsId)
+                @Html.HiddenFor(model => ((NewsBarCore.Vijesti)model.PageModel).Id)
+                @Html.HiddenFor(model => ((NewsBarCore.Vijesti)model.PageModel).AutorId)
             </div>
         </div>
     </form>
