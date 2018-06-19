@@ -23,11 +23,11 @@
                             <li class="nav-item">@Html.ActionLink(cat.Ime, "Index", "Home", new { @class = "nav-link" })</li>
                         }
                     }
-                    @Html.ActionLink("Pretraga", "Pretraga", "Home", new { @class = "nav-link" })
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right ml-auto">
-                    @if (Session["User"] == null)
+                    @Html.ActionLink("Pretraga", "Pretraga", "Home", new { @class = "nav-link" })
+                    @if (Session["User"] != null)
                     {
                         <li class="nav-item">@Html.ActionLink("Dodaj vijest", "AddNews", "Home", new { @class = "nav-link" })</li>
                     }

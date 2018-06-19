@@ -1,5 +1,13 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Home Page";
+
+    if (IsPost)
+    {
+        var param = (object[])(Model.PageModel);
+        Session["User"] = (NewsBarCore.Korisnici)(param[0]);
+        Model.PageModel = param[1];
+    }
 }
 
 @model NewsBarHCI.Models.ViewModel
