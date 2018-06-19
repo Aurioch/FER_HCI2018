@@ -44,14 +44,18 @@ namespace NewsBarHCI.Controllers
     
         }
 
-      
-
         [HttpGet]
         public ActionResult AddNews()
         {
             var db = new NewsBarEntities();
 
-            return View();
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = new Vijesti()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -59,11 +63,67 @@ namespace NewsBarHCI.Controllers
         public ActionResult PostNews(Vijesti vijest)
         {
             var db = new NewsBarEntities();
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = null
+            };
 
-            vijest.AutorId = 1;
-            db.Vijesti.Add(vijest);
+            vijest.Korisnici = db.Korisnici.FirstOrDefault(k => k.Id == vijest.AutorId);
+            vijest.Created = DateTime.Now;
+            vijest.Slika = "";
+            vijest.Id = db.Vijesti.Last().Id + 1; //TODO: Ukloniti nakon auto increment
 
-            return View("AddNews", vijest);
+            try
+            {
+                db.Vijesti.Add(vijest);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return View("AddNews", model);
+            }
+
+            model.PageModel = vijest;
+
+            return View("AddNews", model);
+        }
+
+        [HttpGet]
+        public ActionResult Prijava()
+        {
+            var db = new NewsBarEntities();
+
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = null
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("Login")]
+        public ActionResult IzvršiPrijavu(string nick, string password)
+        {
+            var db = new NewsBarEntities();
+            var hash = ComputeMD5(password);
+
+            var korisnik = db.Korisnici.FirstOrDefault(u => u.Ime == nick && u.Pass == hash);
+
+            if (korisnik == null)
+            {
+                return View("Prijava");
+            }
+
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = new object[] { korisnik, db.Vijesti.ToList() }
+            };
+
+            return View("Index", model);
         }
 
         [HttpGet]
@@ -73,10 +133,10 @@ namespace NewsBarHCI.Controllers
 
             var vijest = db.Vijesti.Find(Id);
 
-      //      List<NewsBarCore.Vijesti> vijestList = new List<Vijesti>();
+            //      List<NewsBarCore.Vijesti> vijestList = new List<Vijesti>();
 
-        //    vijestList.Add(vijest);
-          
+            //    vijestList.Add(vijest);
+
 
             var model = new ViewModel()
             {
@@ -85,15 +145,9 @@ namespace NewsBarHCI.Controllers
             };
 
             return View(model);
-           
+
         }
 
-
-        public ActionResult Prijava()
-        {
-
-            return View();
-        }
 
         public ActionResult Registracija()
         {
@@ -106,6 +160,26 @@ namespace NewsBarHCI.Controllers
         {
 
             return View();
+        }
+
+        public ActionResult PostComment(Komentari komentar)
+        {
+            return View("Index"); //TODO: Preusmjeriti na stranicu za jednu vijest
+        }
+
+        public static string ComputeMD5(string input)
+        {
+            var md5 = System.Security.Cryptography.MD5.Create();
+
+            var inputBytes = System.Text.Encoding.Unicode.GetBytes(input);
+            var hash = md5.ComputeHash(inputBytes);
+
+            var result = new System.Text.StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
+                result.Append(hash[i].ToString("X2"));
+
+            return result.ToString();
         }
     }
 }
