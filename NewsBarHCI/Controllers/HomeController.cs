@@ -14,34 +14,33 @@ namespace NewsBarHCI.Controllers
         {
             var db = new NewsBarEntities();
 
-            var k = db.Kategorije.ToList();
-            var v = db.Vijesti.ToList();
-
-            var model = new IndexViewModel()
+            var model = new ViewModel()
             {
-                Korisnici = null,
-                Komentari = null,
-                Vijesti = db.Vijesti.ToList(),
-                Kategorije = db.Kategorije.ToList()                
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = db.Vijesti.ToList()
             };
 
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult AddNews(int Id)
+        public ActionResult AddNews()
         {
-            var model = new AddNewsViewModel();
-
             var db = new NewsBarEntities();
 
-            model.Korisnik = db.Korisnici.Find(Id);
-            model.Vijest = new Vijesti()
-            {
-                AutorId = Id,                
-            };
+            return View();
+        }
 
-            return View(model);
+        [HttpPost]
+        [ActionName("PostNews")]
+        public ActionResult PostNews(Vijesti vijest)
+        {
+            var db = new NewsBarEntities();
+
+            vijest.AutorId = 1;
+            db.Vijesti.Add(vijest);
+
+            return View("AddNews", vijest);
         }
 
         [HttpGet]
