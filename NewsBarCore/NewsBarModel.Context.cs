@@ -23,6 +23,9 @@ namespace NewsBarCore
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
+
+            modelBuilder.Entity<Vijesti>().ToTable("Vijesti");
+            modelBuilder.Entity<Kategorije>().ToTable("Kategorije");
         }
     
         public virtual DbSet<Kategorije> Kategorije { get; set; }
