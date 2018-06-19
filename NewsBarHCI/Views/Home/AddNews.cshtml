@@ -4,7 +4,7 @@
     ViewBag.Title = "Dodaj vijest";
 }
 
-@model NewsBarCore.Vijesti
+@model NewsBarHCI.Models.ViewModel
 
 @{
     WebImage photo = null;
@@ -14,7 +14,7 @@
         photo = WebImage.GetImageFromRequest();
         if (photo != null)
         {
-            photo.Save(Model.Slika);
+            //photo.Save(Model.Slika);
         }
     }
 }
@@ -33,17 +33,12 @@
     <form method="post" action="postnews" enctype="multipart/form-data">
         <div class="row segment">
             <div class="col-md-2">Naslov:</div>
-            <div class="col-md-10">@Html.TextBoxFor(news => news.Naslov)</div>
-        </div>
-
-        <div class="row segment">
-            <div class="col-md-2">Autor:</div>
-            <div class="col-md-10">@Html.TextBoxFor(news => news.Autor)</div>
+            <div class="col-md-10">@Html.TextBoxFor(news => ((NewsBarCore.Vijesti)news.PageModel).Naslov)</div>
         </div>
 
         <div class="row segment">
             <div class="col-md-2">Tekst:</div>
-            <div class="col-md-10">@Html.TextAreaFor(news => news.Tekst)</div>
+            <div class="col-md-10">@Html.TextAreaFor(news => ((NewsBarCore.Vijesti)news.PageModel).Tekst)</div>
         </div>
 
         <div class="row segment">
@@ -55,7 +50,8 @@
             <div class="col-md-12">
                 <button type="submit">Submit</button>
                 <button type="reset">Clear</button>
-                @Html.HiddenFor(news => news.Id)
+                @Html.HiddenFor(news => ((NewsBarCore.Vijesti)news.PageModel).AutorId)
+                @Html.HiddenFor(news => ((NewsBarCore.Vijesti)news.PageModel).Id)
             </div>
         </div>
     </form>

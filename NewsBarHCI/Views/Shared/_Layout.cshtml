@@ -1,4 +1,4 @@
-﻿@model NewsBarHCI.Models.BaseViewModel
+﻿@model NewsBarHCI.Models.ViewModel
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right ml-auto">
-                    @if (Model != null)
+                    @if (Session["User"] == null)
                     {
                         <li class="nav-item">@Html.ActionLink("Dodaj vijest", "AddNews", "Home", new { @class = "nav-link" })</li>
                     }
