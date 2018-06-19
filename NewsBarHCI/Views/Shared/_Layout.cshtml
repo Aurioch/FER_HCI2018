@@ -23,6 +23,7 @@
                             <li class="nav-item">@Html.ActionLink(cat.Ime, "Index", "Home", new { @class = "nav-link" })</li>
                         }
                     }
+                    @Html.ActionLink("Pretraga", "Pretraga", "Home", new { @class = "nav-link" })
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right ml-auto">
@@ -32,8 +33,8 @@
                     }
                     else
                     {
-                        <li class="nav-item"><a href="/Account/Register" id="registerLink" class="nav-link">Register</a></li>
-                        <li class="nav-item"><a href="/Account/Login" id="loginLink" class="nav-link">Log in</a></li>
+                        <li class="nav-item">@Html.ActionLink("Registracija", "Registracija", "Home", new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Prijava", "Prijava", "Home", new { @class = "nav-link" })</li>
                     }
                 </ul>
 
