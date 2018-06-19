@@ -237,7 +237,7 @@
     <Content Include="Views\Home\Pretraga.cshtml" />
     <Content Include="Views\Home\Prijava.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-	<Content Include="Views\Home\Registracija.cshtml" />
+    <Content Include="Views\Home\Registracija.cshtml" />
     <Content Include="Views\Home\AddNews.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -248,6 +248,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\NewsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -44,6 +44,18 @@ namespace NewsBarHCI.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult NewsView(int Id)
+        {
+            var db = new NewsBarEntities();
+
+            var vijest = db.Vijesti.Find(Id);
+
+            return View(vijest);
+           
+        }
+
+
         public ActionResult Prijava()
         {
 
