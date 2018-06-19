@@ -38,12 +38,12 @@
 
         <div class="row segment">
             <div class="col-md-2">Autor:</div>
-            <div class="col-md-10">@Html.TextBoxFor(news => news.Author)</div>
+            <div class="col-md-10">@Html.TextBoxFor(news => news.Autor)</div>
         </div>
 
         <div class="row segment">
             <div class="col-md-2">Tekst:</div>
-            <div class="col-md-10">@Html.TextAreaFor(news => news.Text)</div>
+            <div class="col-md-10">@Html.TextAreaFor(news => news.Tekst)</div>
         </div>
 
         <div class="row segment">
@@ -55,7 +55,7 @@
             <div class="col-md-12">
                 <button type="submit">Submit</button>
                 <button type="reset">Clear</button>
-                @Html.HiddenFor(news => news.NewsId)
+                @Html.HiddenFor(news => news.Id)
             </div>
         </div>
     </form>
