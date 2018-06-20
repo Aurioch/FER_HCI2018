@@ -123,6 +123,9 @@ namespace NewsBarHCI.Controllers
             return View("Index", model);
         }
 
+
+        
+
         [HttpGet]
         public ActionResult NewsView(int Id)
         {
@@ -140,36 +143,39 @@ namespace NewsBarHCI.Controllers
            
         }
 
-        public ActionResult ProfilePage(int Id = -1) 
+        public ActionResult ProfilePage() 
         {
 
-            var db = new NewsBarEntities();
+            //         var db = new NewsBarEntities();
+            /*
+                        if(Id == -1)
+                        {
+                            var model = new ViewModel()
+                            {
+                                Kategorije = db.Kategorije.ToList(),
+                                PageModel = null
+                            };
 
-            if(Id == -1)
-            {
-                var model = new ViewModel()
-                {
-                    Kategorije = db.Kategorije.ToList(),
-                    PageModel = null
-                };
+                            return View(model);
+                        }
+                        else
+                        {
+                            var korisnik = db.Korisnici.Find(Id);
 
-                return View(model);
-            }
-            else
-            {
-                var korisnik = db.Korisnici.Find(Id);
-
-                var model = new ViewModel()
-                {
-                    Kategorije = db.Kategorije.ToList(),
-                    PageModel = korisnik
-                };
+                            var model = new ViewModel()
+                            {
+                                Kategorije = db.Kategorije.ToList(),
+                                PageModel = korisnik
+                            };
 
 
-                return View(model);
+                            return View(model);
 
-            }
-          
+                        }
+              */
+
+
+            return View();
         }
 
 
