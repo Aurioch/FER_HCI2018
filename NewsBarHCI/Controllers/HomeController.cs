@@ -102,7 +102,7 @@ namespace NewsBarHCI.Controllers
 
         [HttpPost]
         [ActionName("Login")]
-        public ActionResult IzvršiPrijavu(string nick, string password)
+        public ActionResult IzvrsiPrijavu(string nick, string password)
         {
             var db = new NewsBarEntities();
             var hash = ComputeMD5(password);
@@ -132,11 +132,16 @@ namespace NewsBarHCI.Controllers
             var db = new NewsBarEntities();
 
             var vijest = db.Vijesti.Find(Id);
+            var komentar = new Komentari()
+            {
+                News = vijest.Id,
+                Vijesti = vijest,
+            };
 
             var model = new ViewModel()
             {
                 Kategorije = db.Kategorije.ToList(),
-                PageModel = vijest
+                PageModel = new object[] { vijest, komentar }
             };
 
             return View(model);
@@ -192,9 +197,35 @@ namespace NewsBarHCI.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ActionName("PostComment")]
         public ActionResult PostComment(Komentari komentar)
         {
-            return View("Index"); //TODO: Preusmjeriti na stranicu za jednu vijest
+            var db = new NewsBarEntities();
+
+            komentar.Created = DateTime.Now;
+            komentar.Vijesti = db.Vijesti.First(v => v.Id == komentar.News);
+            komentar.Korisnici = db.Korisnici.FirstOrDefault(k => k.Id == komentar.Osoba);
+            komentar.Id = db.Komentari.Count() == 0 ? 0 : db.Komentari.Last().Id + 1;
+
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = new object[] { komentar.Vijesti, komentar }
+            };
+
+            try
+            {
+                db.Komentari.Add(komentar);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                // Ako nije uspjelo postanje, treba dojaviti
+                model.PageModel = new object[] { model.PageModel, null };
+            }
+
+            return View("NewsView", model);
         }
 
         public static string ComputeMD5(string input)

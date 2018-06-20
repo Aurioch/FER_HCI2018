@@ -40,10 +40,10 @@
 
                 <div class="col-md-12">
                     <ul class="list-group">
-                        @foreach (var comment in item.Komentari.Where(c => c.News == item.Id))
+                        @foreach (var comment in item.Komentari.Where(c => c.News == item.Id).Take(3))
                         {
                             <li class="list-group-item">
-                                <h4>@comment.Osoba</h4>
+                                <h4>@comment.Korisnici.Ime</h4>
                                 <p>@comment.Tekst</p>
                             </li>
                         }
@@ -77,7 +77,7 @@
             var str2 = index.toString();
             var res = str1.concat(str2);
 
-            window.open(res);
+            window.open(res, "_self");
         }
         
    

@@ -1,7 +1,13 @@
 ﻿
 @{
     ViewBag.Title = "NewsView";
-    var item = (NewsBarCore.Vijesti)Model.PageModel;
+    var item = (NewsBarCore.Vijesti)(((object[])Model.PageModel)[0]);
+    var korisnik = (NewsBarCore.Korisnici)Session["User"];
+    var komentar = (NewsBarCore.Komentari)(((object[])Model.PageModel)[1]);
+    if (komentar != null && korisnik != null)
+    {
+        komentar.Osoba = korisnik.Id;
+    }
 }
 
 
@@ -10,42 +16,61 @@
 <div class="container news">
     @if (Model != null)
     {
-       
-            <div id="newsWindow" class="row vijest" onclick="newFrame()">
-                <div class="col-md-12">
-                    <h1>@item.Naslov</h1>
+        if (IsPost)
+        {
+            if (((object[])Model.PageModel)[1] != null)
+            {
+                <div class="alert alert-success">
+                    <p>Komentar dodan</p>
                 </div>
-                <div class="col-md-6">
-                    <!--<img src="UrlHelper.GenerateContentUrl(item.Slika, this.Context)" />-->
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <p>Dodavanje komentara nije uspjelo</p>
                 </div>
-                <div class="col-md-6">
-                    <h3>@item.Korisnici.Ime</h3>
-                    <p>@item.Tekst</p><br />
-                </div>
+            }
+        }
 
+
+        <div id="newsWindow" class="row vijest" onclick="newFrame()">
+            <div class="col-md-12">
+                <h1>@item.Naslov</h1>
+            </div>
+            <div class="col-md-6">
+                <!--<img src="UrlHelper.GenerateContentUrl(item.Slika, this.Context)" />-->
+            </div>
+            <div class="col-md-6">
+                <h3>@item.Korisnici.Ime</h3>
+                <p>@item.Tekst</p><br />
+            </div>
+
+            @if (Session["User"] != null)
+            {
                 <div class="col-md-12">
-                    <form method="post" action="PostComment">
-                        <input type="hidden" name="ownerid" value="@item.Id.ToString()" /><br />
-                        <p>Autor: <input name="author" /></p>
-                        <p><textarea name="comment"></textarea></p>
+                    <form method="post" action="..\postcomment">
+                        <p>@Html.TextAreaFor(com => ((NewsBarCore.Komentari)(((object[])Model.PageModel)[1])).Tekst)</p>
                         <p><button type="submit">Submit</button></p>
+                        @Html.HiddenFor(com => ((NewsBarCore.Komentari)(((object[])Model.PageModel)[1])).Osoba)
+                        @Html.HiddenFor(com => ((NewsBarCore.Komentari)(((object[])Model.PageModel)[1])).News)
                     </form>
                 </div>
+            }
 
-                <div class="col-md-12">
-                    <ul class="list-group">
-                        @foreach (var comment in item.Komentari.Where(c => c.News == item.Id))
-                        {
-                            <li class="list-group-item">
-                                <h4>@comment.Osoba</h4>
-                                <p>@comment.Tekst</p>
-                            </li>
-                        }
-                    </ul>
-                </div>
-
+            <div class="col-md-12">
+                <ul class="list-group">
+                    @foreach (var comment in item.Komentari.Where(c => c.News == item.Id))
+                    {
+                        <li class="list-group-item">
+                            <h4>@comment.Korisnici.Ime</h4>
+                            <p>@comment.Tekst</p>
+                        </li>
+                    }
+                </ul>
             </div>
-        
+
+        </div>
+
 
     }
 </div>
