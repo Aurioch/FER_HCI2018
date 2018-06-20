@@ -66,10 +66,13 @@ namespace NewsBarHCI.Controllers
                 PageModel = null
             };
 
+            var news = db.Vijesti.ToList();
+            var last = news.Count > 0 ? news[news.Count - 1] : null;
+
             vijest.Korisnici = db.Korisnici.FirstOrDefault(k => k.Id == vijest.AutorId);
             vijest.Created = DateTime.Now;
-            vijest.Slika = "";
-            vijest.Id = db.Vijesti.Last().Id + 1; //TODO: Ukloniti nakon auto increment
+            vijest.Slika = @"~\Images\" + Guid.NewGuid().ToString() + "_" + Request.Files[0].FileName;
+            vijest.Id = last?.Id + 1 ?? 0; //TODO: Ukloniti nakon auto increment
 
             try
             {

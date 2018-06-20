@@ -251,6 +251,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Avatars\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
