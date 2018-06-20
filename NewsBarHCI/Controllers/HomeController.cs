@@ -21,7 +21,7 @@ namespace NewsBarHCI.Controllers
                 var model = new ViewModel()
                 {
                     Kategorije = db.Kategorije.ToList(),
-                    PageModel = db.Vijesti.ToList()
+                    PageModel = new object[] { db.Vijesti.ToList() }
                 };
 
                 return View(model);
@@ -32,13 +32,13 @@ namespace NewsBarHCI.Controllers
                 var model = new ViewModel()
                 {
                     Kategorije = db.Kategorije.ToList(),
-                    PageModel = db.Kategorije.Find(Id).Vijesti.ToList()
+                    PageModel = new object[] { db.Kategorije.Find(Id).Vijesti.ToList() }
                 };
 
                 return View(model);
 
             }
-    
+
         }
 
         [HttpGet]
@@ -123,8 +123,20 @@ namespace NewsBarHCI.Controllers
             return View("Index", model);
         }
 
+        [HttpGet]
+        [ActionName("Logout")]
+        public ActionResult Logout()
+        {
+            var db = new NewsBarEntities();
 
-        
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = new object[] { null, db.Vijesti.ToList() }
+            };
+
+            return View("Index", model);
+        }
 
         [HttpGet]
         public ActionResult NewsView(int Id)
@@ -183,12 +195,55 @@ namespace NewsBarHCI.Controllers
             return View();
         }
 
-
+        [HttpGet]
         public ActionResult Registracija()
         {
+            var db = new NewsBarEntities();
 
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+            };
 
-            return View();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("Register")]
+        public ActionResult ObaviRegistraciju(string nick, string email, string password)
+        {
+            var db = new NewsBarEntities();
+
+            var model = new ViewModel()
+            {
+                Kategorije = db.Kategorije.ToList(),
+                PageModel = true
+            };
+
+            var users = db.Korisnici.ToList();
+            var last = users.Count > 0 ? users[users.Count - 1] : null;
+
+            var user = new Korisnici()
+            {
+                Id = last?.Id + 1 ?? 0,
+                Ime = nick,
+                Email = email,
+                Avatar = "",
+                Created = DateTime.Now,
+                Pass = ComputeMD5(password),
+            };
+
+            try
+            {
+                db.Korisnici.Add(user);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return View("Registracija", model);
+            }
+
+            return View("Prijava", model);
         }
 
         public ActionResult Pretraga()

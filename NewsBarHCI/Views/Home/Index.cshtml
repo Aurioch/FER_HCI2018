@@ -2,11 +2,15 @@
 @{
     ViewBag.Title = "Home Page";
 
-    if (IsPost)
+    var param = (object[])(Model.PageModel);
+    if (param.Length > 1)
     {
-        var param = (object[])(Model.PageModel);
         Session["User"] = (NewsBarCore.Korisnici)(param[0]);
         Model.PageModel = param[1];
+    }
+    else
+    {
+        Model.PageModel = param[0];
     }
 }
 

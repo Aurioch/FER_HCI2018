@@ -32,8 +32,8 @@
                     {
                       
                         <li class="nav-item">@Html.ActionLink("Dodaj vijest", "AddNews", "Home", new { @class = "nav-link" })</li>
-                        <li class="nav-item">@Html.ActionLink("Profil", "ProfilePage", "Home", new { @class = "nav-link" })</li>
-                        <li class="nav-item">@Html.ActionLink("Odjava", "Index", "Home", new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink(((NewsBarCore.Korisnici)Session["User"]).Ime, "ProfilePage", "Home", new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Odjava", "Logout", "Home", new { @class = "nav-link" })</li>
                     }
                     else
                     {

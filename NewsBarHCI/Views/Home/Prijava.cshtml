@@ -1,12 +1,23 @@
-﻿<div class="jumbotron">
+﻿@model NewsBarHCI.Models.ViewModel
+
+<div class="jumbotron">
 
     <h2>Prijava</h2>
 
-    @if (@IsPost)
+    @if (IsPost)
     {
-        <div class="alert alert-danger">
-            <p>Prijava nije uspjela</p>
-        </div>
+        if (Model.PageModel == null)
+        {
+            <div class="alert alert-danger">
+                <p>Prijava nije uspjela</p>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                <p>Registracija obavljena</p>
+            </div>
+        }
     }
 
     <form id="login_form" method="post" action="login">
